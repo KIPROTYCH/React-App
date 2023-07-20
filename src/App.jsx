@@ -4,8 +4,20 @@ import { useState } from "react";
 
 function App () {
   const [newItem, setNewItem] = useState("")
+  const [todos, setToDos] = useState([])
+
+
   function handleSubmit(e) {
     e.preventDefault()
+
+    setToDos(currentToDos => {
+      return [
+        ...currentToDos,
+        {id: crypto.getRandomUUID(), title: newItem, completed: false},
+      ]
+    })
+
+
   }
 
   return (
@@ -17,20 +29,24 @@ function App () {
 
     </div>
     <button className="btn">Add</button>
+      </form>
 
     <h1 className="header">To-Do List</h1>
 
     <ul className="list">
-      <li>
+        {todos.map(todo => {
+          return <li>
         <label>
-          <input type="checkbox" />
-          Item 1
+          <input type="checkbox" checked={todo.completed} />
+          {todo.title}
         </label>
         <button className="delete-btn">Delete</button>
       </li>
+        })}
+      
     </ul>
 
-  </form>
+
 
   </>
   )
